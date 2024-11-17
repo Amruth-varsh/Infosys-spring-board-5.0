@@ -2,14 +2,6 @@
 
 This project enables real-time detection of tennis balls and players from video inputs using a custom-trained YOLOv5 model. The application is designed for coaches, players, and analysts to enhance tennis match analysis. It features an interactive user interface built with Streamlit.
 
-**[Video]**
-
-<video width="100%" controls>
-  <source src="https://github.com/Amruth-varsh/Infosys-spring-board-5.0/raw/main/Processed%20Video.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-
 
 ## Features
 
