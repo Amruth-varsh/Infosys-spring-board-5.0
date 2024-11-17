@@ -63,7 +63,7 @@ Upload a sample tennis match video to detect player movements and tennis ball po
 
 ## Dependencies
 
-1.YOLOv5: Custom-trained model for object detection.
-2.Streamlit: Provides the interactive web application.
-3.PyTorch: Backend framework for YOLOv5.
-4.OpenCV: Handles video processing.
+1. YOLOv5: Custom-trained model for object detection.
+2. Streamlit: Provides the interactive web application.
+3. PyTorch: Backend framework for YOLOv5.
+4. OpenCV: Handles video processing.
