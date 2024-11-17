@@ -4,9 +4,10 @@ This project enables real-time detection of tennis balls and players from video 
 
 **[Video]**
 
-
-
-[Watch the Processed Video](https://github.com/Amruth-varsh/Infosys-spring-board-5.0/raw/main/Processed%20Video.mp4)
+<video width="100%" controls>
+  <source src="https://github.com/Amruth-varsh/Infosys-spring-board-5.0/raw/main/Processed%20Video.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 
 
