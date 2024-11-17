@@ -3,31 +3,11 @@ import torch
 import cv2
 import tempfile
 import numpy as np
-import pathlib
 import os
 import time
 
-# Ensure compatibility with Windows paths if needed (you can remove this if running on Linux)
-#pathlib.PosixPath = pathlib.WindowsPath
-
-# Define local paths for the model and repository (update for your environment)
-#repo_path = 'C://Users//lahya//OneDrive//Desktop//hello world app'  # Update to your repo path
+# Define the model path
 model_path = 'best.pt'  # Replace with your actual .pt file path
-
-# Debugging: Check if paths exist
-#if not os.path.exists(repo_path):
-  #  raise FileNotFoundError(f"Repository path {repo_path} does not exist.")
-#if not os.path.exists(model_path):
-# raise FileNotFoundError(f"Model path {model_path} does not exist.")
-
-# Check if 'hubconf.py' exists in the repo
-#hubconf_path = os.path.join('.', 'hubconf.py')
-#if not os.path.exists(hubconf_path):
- #   raise FileNotFoundError(f"hubconf.py not found in {repo_path}. Make sure your repository is structured correctly.")
-
-# Add repo_path to sys.path to make sure Python can find your repository's hubconf.py
-#import sys
-#sys.path.append(repo_path)
 
 # Attempt to load the custom YOLOv5 model
 try:
@@ -35,38 +15,77 @@ try:
     st.success("Model loaded successfully!")
 except Exception as e:
     st.error(f"Error loading model: {e}")
-    raise e  # Reraise the exception so we can catch it in the logs
+    raise e
 
-# Streamlit Sidebar for fancy, engaging user instructions
-st.sidebar.title("🚀  Tennis Tracking  for Player and Ball App")
-
-st.sidebar.markdown(
+# Apply CSS for enhanced styling
+st.markdown(
     """
-    **Welcome to the Tennis  Tracking App! 🎾**
+    <style>
+        body {
+            background-color: black; /* Main background */
+            color: #00ff99; /* Text color */
+            font-family: Arial, sans-serif;
+        }
+        .stApp {
+            background-color: #101010; /* Container background */
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .stSidebar {
+            background-color: #202020; /* Sidebar background */
+            border-right: 1px solid #444;
+        }
+        .stButton>button {
+            color: white;
+            background-color: #008080; /* Button background */
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+        }
+        .stButton>button:hover {
+            background-color: #00cc99; /* Button hover color */
+        }
+        .stProgress > div > div > div {
+            background-color: #00ff99; /* Progress bar color */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #00ff99; /* Heading color */
+        }
+        p {
+            color: #cccccc; /* Paragraph text color */
+        }
+        .uploadedVideo {
+            border: 2px dashed #00cc99;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-    **Step 1: Upload Your Video**
-    📹 Choose a tennis video (MP4, AVI, or MOV format) from your device. The app supports various formats to get started!
-
-    **Step 2: Let the Magic Happen**
-    🛠️ Once uploaded, the app will analyze the video and track the players in real-time. Sit back, relax, and watch as your video gets processed!
-
-    **Step 3: Download Your Processed Video**
-    ⬇️ After processing, you can download the video with all the detected player tracking included. Ready for sharing or further analysis!
-
-    **Quick Tip**: Make sure the **best.pt** model is in the correct directory. If you’re unsure, check the paths or let us know in the support section.
-
-    **Happy Tracking!**
+# Streamlit Sidebar for user instructions
+st.sidebar.title("🚀 Tennis Tracking for Players and Ball")
+st.sidebar.info(
+    """
+    ### Welcome to the Tennis Tracking App! 🎾
+    - **Step 1**: Upload a tennis video file (e.g., MP4, AVI, MOV).
+    - **Step 2**: Watch as the app tracks players and the ball.
+    - **Step 3**: Download the processed video.
     """
 )
 
-# Main App UI
-st.title('🎾 Tennis Tracking App')
-st.write("Upload a tennis video to detect and track players in real-time.")
+# Main App Interface
+st.title('🎾 **Tennis Tracking Application**')
+st.write("Detect and track players in tennis videos in real-time. Please upload a video file below to get started!")
 
 # File uploader for video input
-uploaded_video = st.file_uploader("Choose a video file...", type=["mp4", "avi", "mov"])
+uploaded_video = st.file_uploader("Upload Your Tennis Video 🎥", type=["mp4", "avi", "mov"])
 
 if uploaded_video is not None:
+    st.markdown('<div class="uploadedVideo">Video uploaded successfully! Processing will begin shortly.</div>', unsafe_allow_html=True)
+
     # Save the uploaded video to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_video:
         temp_video.write(uploaded_video.read())
@@ -91,7 +110,7 @@ if uploaded_video is not None:
     progress_bar = st.progress(0)
     frame_count = 0
 
-    st.write("⏳ Processing video... Please wait.")
+    st.write("⏳ **Processing video... Please wait.**")
 
     # Process video frames
     while cap.isOpened():
@@ -99,7 +118,7 @@ if uploaded_video is not None:
         if not ret:
             break
 
-        # Run detection model (mixed precision if CUDA is available)
+        # Run detection model
         if torch.cuda.is_available():
             with torch.amp.autocast(device_type='cuda'):
                 results = model(frame)
@@ -128,13 +147,13 @@ if uploaded_video is not None:
     cap.release()
     out.release()
 
-    st.success("🎉 Video processing complete!")
+    st.success("🎉 **Video processing complete!**")
 
     # Provide download button for the processed video
-    st.write("📥 Download the processed video:")
+    st.write("📥 **Download Your Processed Video:**")
     with open(output_video_path, 'rb') as f:
         st.download_button(
-            label="⬇ Download Processed Video",
+            label="⬇ **Download Processed Video**",
             data=f,
             file_name="processed_video.mp4",
             mime="video/mp4"
