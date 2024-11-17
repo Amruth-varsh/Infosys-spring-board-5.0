@@ -38,7 +38,7 @@ except Exception as e:
     raise e  # Reraise the exception so we can catch it in the logs
 
 # Streamlit Sidebar for fancy, engaging user instructions
-st.sidebar.title("🚀 How to Use the Tennis Tracking App")
+st.sidebar.title("🚀  Tennis Tracking  for Player and Ball App")
 
 st.sidebar.markdown(
     """
