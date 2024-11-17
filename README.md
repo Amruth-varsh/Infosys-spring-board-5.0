@@ -39,7 +39,7 @@ Place the custom-trained YOLOv5 model file in the `yolov5/runs/exp/weights/best.
 Run the following command in the `yolov5` directory:
 
 ```bash
-streamlit run app.py
+streamlit run tennismatch.py
 ```
 
 ## File Structure
