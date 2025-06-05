@@ -1,4 +1,5 @@
 streamlit
+seaborn
 torch
 ultralytics
 opencv-python-headless
